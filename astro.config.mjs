@@ -6,5 +6,6 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   srcDir: "./demo",
   output: "static",
+  server: { port: 4320 },
   vite: { plugins: [tailwindcss()] },
 });

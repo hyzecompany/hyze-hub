@@ -1,0 +1,83 @@
+---
+import { BRANDS, GROUP } from "@hyze/ui/brands";
+import Button from "@hyze/ui/components/Button.astro";
+import Highlight from "@hyze/ui/components/Highlight.astro";
+import LeadForm from "@hyze/ui/components/LeadForm.astro";
+import Logo from "@hyze/ui/components/Logo.astro";
+import BaseLayout from "@hyze/ui/layouts/BaseLayout.astro";
+
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "1x00000000000000000000AA";
+---
+
+<BaseLayout
+  title="Soluções em tecnologia para o seu negócio"
+  description="Hyze é um grupo de soluções em tecnologia: sites, consultoria, marketing e hardware. Muito além do código."
+  nav={[
+    { href: "#empresas", label: "Empresas" },
+    { href: "#contato", label: "Contato" },
+  ]}
+  analyticsToken={import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN}
+>
+  <section class="mx-auto flex max-w-6xl flex-col items-start gap-10 px-4 py-24 md:px-6 md:py-36">
+    <div data-hero>
+      <Logo size="lg" animated />
+    </div>
+    <p data-hero class="text-2xl font-extralight text-navy-400 md:text-4xl">
+      {GROUP.slogan}
+    </p>
+    <Highlight data-hero class="max-w-2xl">
+      Soluções inovadoras para destacar o seu negócio. Descubra como a Hyze pode impulsionar seus
+      negócios.
+    </Highlight>
+    <div data-hero class="flex flex-wrap gap-3">
+      <Button href="#empresas">Conheça as empresas</Button>
+      <Button href="#contato" variant="ghost">
+        Fale com a gente
+      </Button>
+    </div>
+  </section>
+
+  <section id="empresas" class="bg-platinum text-navy-950">
+    <div class="mx-auto max-w-6xl px-4 py-20 md:px-6">
+      <h2 data-reveal class="mb-10 text-3xl font-semibold md:text-4xl">
+        Empresas do grupo
+      </h2>
+      <ul data-stagger class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {BRANDS.map((b) => (
+          <li class="card-hover group flex flex-col gap-4 rounded-2xl border border-transparent bg-navy-950 p-6 text-platinum hover:border-navy-700">
+            <Logo label={b.label} href={b.status === "ativo" ? b.url : "#contato"} size="sm" />
+            <p class="flex-1 text-sm font-extralight">{b.tagline}</p>
+            {b.status === "ativo" ? (
+              <a href={b.url} class="text-sm font-semibold underline-offset-4 hover:underline">
+                Acessar{" "}
+                <span class="inline-block transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
+              </a>
+            ) : (
+              <span class="text-sm font-extralight text-navy-400">Em breve</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="contato" data-reveal class="mx-auto max-w-3xl px-4 py-20 md:px-6">
+    <h2 class="mb-2 text-3xl font-semibold">Vamos conversar?</h2>
+    <p class="mb-8 font-extralight text-navy-400">
+      Conte o que você precisa e a gente indica a melhor solução do grupo.
+    </p>
+    <LeadForm
+      brand="grupo"
+      turnstileSiteKey={turnstileSiteKey}
+      services={[
+        "Site ou landing page",
+        "Consultoria em tecnologia",
+        "Marketing digital",
+        "Hardware",
+        "Outro",
+      ]}
+    />
+  </section>
+</BaseLayout>

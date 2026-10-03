@@ -1,0 +1,54 @@
+---
+import { GROUP } from "@hyze/ui/brands";
+import BaseLayout from "@hyze/ui/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Política de privacidade"
+  description="Como a Hyze trata os dados pessoais enviados pelos formulários dos seus sites."
+>
+  <article class="mx-auto max-w-3xl space-y-6 px-4 py-20 font-extralight md:px-6 [&_h2]:mt-10 [&_h2]:text-xl [&_h2]:font-semibold">
+    <h1 class="text-4xl font-semibold">Política de privacidade</h1>
+    <p class="text-sm text-navy-400">
+      Modelo inicial — revise com um profissional antes de publicar. Última atualização: TODO.
+    </p>
+
+    <h2>Quem somos</h2>
+    <p>
+      Hyze (TODO: razão social e CNPJ) é responsável pelos dados coletados nos sites do grupo:
+      {GROUP.url} e seus subdomínios.
+    </p>
+
+    <h2>Quais dados coletamos</h2>
+    <p>
+      Nome, telefone/WhatsApp, e-mail (opcional) e a mensagem que você envia no formulário de
+      contato, além do endereço IP e do navegador, para segurança contra spam.
+    </p>
+
+    <h2>Para que usamos</h2>
+    <p>
+      Exclusivamente para responder ao seu pedido de contato ou orçamento (base legal: consentimento
+      e procedimentos preliminares a contrato — LGPD, art. 7º, I e V).
+    </p>
+
+    <h2>Com quem compartilhamos</h2>
+    <p>
+      Os dados ficam armazenados na infraestrutura da Cloudflare, que atua como operadora. Não
+      vendemos nem compartilhamos seus dados com terceiros para publicidade.
+    </p>
+
+    <h2>Por quanto tempo guardamos</h2>
+    <p>Até 24 meses após o último contato, ou até você pedir a exclusão.</p>
+
+    <h2>Seus direitos</h2>
+    <p>
+      Você pode pedir acesso, correção ou exclusão dos seus dados a qualquer momento pelo e-mail:
+      <a class="underline" href={`mailto:${GROUP.email}`}>
+        {GROUP.email}
+      </a>
+    </p>
+
+    <h2>Cookies e métricas</h2>
+    <p>Usamos o Cloudflare Web Analytics, que mede visitas sem cookies e sem identificar você.</p>
+  </article>
+</BaseLayout>

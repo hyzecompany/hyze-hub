@@ -17,12 +17,7 @@ interface Props {
 
 // Em desenvolvimento, PUBLIC_API_URL=http://localhost:8787 aponta o formulário para a API local.
 const envApiUrl = import.meta.env.PUBLIC_API_URL as string | undefined;
-const {
-  brand,
-  turnstileSiteKey,
-  apiUrl = envApiUrl || GROUP.apiUrl,
-  services = [],
-} = Astro.props;
+const { brand, turnstileSiteKey, apiUrl = envApiUrl || GROUP.apiUrl, services = [] } = Astro.props;
 const wa = whatsappLink(`Olá! Vim pelo site da Hyze ${brand} e gostaria de um orçamento.`);
 const field =
   "w-full rounded-lg border border-navy-700 bg-navy-900 px-4 py-3 font-extralight text-platinum placeholder:text-navy-400 focus:border-platinum focus:outline-none";

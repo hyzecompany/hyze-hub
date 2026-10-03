@@ -6,6 +6,7 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://hyzecompany.com.br",
   output: "static",
+  server: { port: 4321 },
   trailingSlash: "never",
   build: { format: "file" },
   vite: { plugins: [tailwindcss()] },

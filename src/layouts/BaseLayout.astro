@@ -1,0 +1,163 @@
+---
+import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import Logo from "../components/Logo.astro";
+import { BRANDS, GROUP } from "../brands";
+
+interface NavItem {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  /** Rótulo da subempresa ao lado do logo (ex.: "sites"). Vazio = site do grupo. */
+  brandLabel?: string | undefined;
+  nav?: NavItem[];
+  /** Token do Cloudflare Web Analytics (opcional). */
+  analyticsToken?: string | undefined;
+}
+
+const { title, description, brandLabel, nav = [], analyticsToken } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? GROUP.url);
+const fullTitle = brandLabel ? `${title} · Hyze ${brandLabel}` : `${title} · Hyze`;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#0d1b2a" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <ClientRouter />
+    <script is:inline>
+      // Marca que o JS está ativo (habilita os estados iniciais das animações).
+      // Se o módulo de movimento não carregar em 2,5 s, mostra tudo normalmente.
+      document.documentElement.classList.add("js");
+      setTimeout(() => {
+        if (!window.__hyzeMotion) document.documentElement.classList.remove("js");
+      }, 2500);
+    </script>
+    <slot name="head" />
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <a
+      href="#conteudo"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-platinum focus:px-4 focus:py-2 focus:text-navy-950"
+    >
+      Pular para o conteúdo
+    </a>
+
+    <header
+      data-header
+      class="sticky top-0 z-40 border-b border-transparent bg-navy-950/70 backdrop-blur-md transition-[transform,background-color,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] data-[hidden]:-translate-y-full data-[scrolled]:border-navy-900 data-[scrolled]:bg-navy-950/90"
+    >
+      <span
+        data-progress
+        aria-hidden="true"
+        class="absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-platinum/60"
+      ></span>
+      <div class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-4 md:px-6">
+        <Logo label={brandLabel} size="sm" />
+        {nav.length > 0 && (
+          <a
+            href={nav.at(-1)?.href}
+            class="rounded-full border border-navy-700 px-4 py-2 text-sm transition-colors duration-300 hover:border-navy-400 active:scale-95 md:hidden"
+          >
+            {nav.at(-1)?.label}
+          </a>
+        )}
+        {nav.length > 0 && (
+          <nav aria-label="Principal" class="hidden md:block">
+            <ul class="flex gap-5 text-sm font-extralight">
+              {nav.map((item) => (
+                <li>
+                  <a href={item.href} class="link-underline">
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+      </div>
+    </header>
+
+    <main id="conteudo" class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="border-t border-navy-900 bg-navy-950">
+      <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-3 md:px-6">
+        <div class="space-y-2">
+          <Logo href={GROUP.url} size="sm" />
+          <p class="text-sm font-extralight text-navy-400">{GROUP.slogan}</p>
+        </div>
+        <div>
+          <p class="mb-3 text-sm font-semibold">Empresas do grupo</p>
+          <ul class="space-y-1 text-sm font-extralight">
+            {BRANDS.map((b) => (
+              <li>
+                {b.status === "ativo" ? (
+                  <a href={b.url} class="hover:text-navy-400">
+                    {b.name}
+                  </a>
+                ) : (
+                  <span class="text-navy-400">{b.name} — em breve</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="space-y-1 text-sm font-extralight">
+          <p class="mb-3 font-semibold">Contato</p>
+          <a href={`mailto:${GROUP.email}`} class="block hover:text-navy-400">
+            {GROUP.email}
+          </a>
+          <a href={`${GROUP.url}/privacidade`} class="block hover:text-navy-400">
+            Política de privacidade
+          </a>
+        </div>
+      </div>
+      <p class="pb-8 text-center text-xs font-extralight text-navy-400">
+        © {year} Hyze. Todos os direitos reservados.
+      </p>
+    </footer>
+
+    <script>
+      import { initMotion } from "../scripts/motion";
+      declare global {
+        interface Window {
+          __hyzeMotion?: boolean;
+        }
+      }
+      window.__hyzeMotion = true;
+      // O ClientRouter troca os atributos do <html>; reaplica a marca antes da nova página pintar.
+      document.addEventListener("astro:after-swap", () =>
+        document.documentElement.classList.add("js"),
+      );
+      // Roda na primeira carga e a cada navegação feita pelo ClientRouter.
+      document.addEventListener("astro:page-load", initMotion);
+    </script>
+    {analyticsToken && (
+      <script
+        is:inline
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={JSON.stringify({ token: analyticsToken })}
+      />
+    )}
+  </body>
+</html>

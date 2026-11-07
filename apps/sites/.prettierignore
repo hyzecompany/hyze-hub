@@ -1,6 +1,0 @@
-pnpm-lock.yaml
-**/dist
-**/.astro
-**/.wrangler
-**/migrations
-**/worker-configuration.d.ts

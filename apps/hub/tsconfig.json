@@ -1,5 +1,5 @@
 {
-  "extends": ["@hyze/ui/tsconfig.base.json", "astro/tsconfigs/strictest"],
+  "extends": ["../../tsconfig.base.json", "astro/tsconfigs/strictest"],
   "compilerOptions": {
     "lib": ["ES2023", "DOM", "DOM.Iterable"]
   },

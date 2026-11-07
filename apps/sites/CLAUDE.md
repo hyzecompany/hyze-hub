@@ -1,25 +1,12 @@
-# Hyze Sites — sites.hyzecompany.com.br
+# Hyze Sites — sites.hyzecompany.com.br (`apps/sites`)
 
-Faz parte do workspace Hyze (organização GitHub `hyzecompany`). **Leia primeiro o guia geral**:
-`../CLAUDE.md` no PC do Gabriel, ou `WORKSPACE.md` no repositório `hyzecompany/.github`.
-Ele traz o protocolo de trabalho em dupla (Claude no VS Code + Claude no Cowork), a stack, a
-identidade visual e as convenções de animação.
+Parte do monorepo Hyze. **Leia primeiro o [CLAUDE.md da raiz](../../CLAUDE.md)** (protocolo de trabalho
+em dupla, stack, identidade visual, animações, como rodar e publicar).
 
-## Este repositório
+Criação de sites e landing pages. Conteúdo editável (planos, etapas, FAQ) em `src/content.ts`;
+página em `src/pages/index.astro`.
 
-Criação de sites e landing pages. Conteúdo editável (planos, etapas, FAQ) em `src/content.ts`; página em `src/pages/index.astro`.
+- Rodar: `pnpm dev:sites` na raiz → http://localhost:4322 (sobe a API junto).
+- Este app é o modelo para novas empresas do grupo (veja "Nova empresa" no CLAUDE.md da raiz).
 
-## Comandos
-
-```bash
-pnpm install
-pnpm dev   # http://localhost:4321
-pnpm lint && pnpm check && pnpm build
-```
-
-## Atenção
-
-Este repositório é o modelo para novas empresas do grupo.
-
-Ao terminar uma tarefa: registre no topo de `docs/HANDOFF.md`, commite (trailer `Agente: vscode`
-ou `Agente: cowork`) e faça push (o Cowork não faz push — deixa anotado no HANDOFF).
+Ao terminar: `pnpm verify` na raiz, entrada no topo de [docs/HANDOFF.md](../../docs/HANDOFF.md), commit e push.

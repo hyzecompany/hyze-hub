@@ -1,25 +1,15 @@
-# Design system da Hyze (`@hyze/ui`)
+# Design system da Hyze — `@hyze/ui` (`packages/ui`)
 
-Faz parte do workspace Hyze (organização GitHub `hyzecompany`). **Leia primeiro o guia geral**:
-`../CLAUDE.md` no PC do Gabriel, ou `WORKSPACE.md` no repositório `hyzecompany/.github`.
-Ele traz o protocolo de trabalho em dupla (Claude no VS Code + Claude no Cowork), a stack, a
-identidade visual e as convenções de animação.
+Parte do monorepo Hyze. **Leia primeiro o [CLAUDE.md da raiz](../../CLAUDE.md)** (protocolo de trabalho
+em dupla, stack, identidade visual, animações, como rodar e publicar).
 
-## Este repositório
+Tokens de cor e tipografia (`src/styles/global.css`), catálogo de marcas (`src/brands.ts`),
+componentes Astro (`src/components`), layout base com header/footer/SEO
+(`src/layouts/BaseLayout.astro`) e motor de animação (`src/scripts/motion.ts`).
 
-Tokens de cor e tipografia (`src/styles/global.css`), catálogo de marcas (`src/brands.ts`), componentes Astro (`src/components`), layout base com header/footer/SEO (`src/layouts/BaseLayout.astro`), motor de animação (`src/scripts/motion.ts`) e `config/tsconfig.base.json`.
+- Catálogo visual: `pnpm dev:ui` na raiz → http://localhost:4320 (páginas em `demo/pages`).
+- Os sites usam este pacote direto do workspace (`"@hyze/ui": "workspace:*"`): mudou aqui,
+  os sites em `pnpm dev` recarregam na hora. Não há versão para publicar.
+- Toda mudança aqui afeta todos os sites — rode `pnpm verify` na raiz.
 
-## Comandos
-
-```bash
-pnpm install
-pnpm dev   # catálogo visual em http://localhost:4321 (demo/pages)
-pnpm lint && pnpm check && pnpm build
-```
-
-## Atenção
-
-Toda mudança aqui afeta todos os sites. Ao terminar: suba a versão no package.json (semver), commite, `git tag vX.Y.Z` e `git push --follow-tags`. Depois atualize os sites (`pnpm update @hyze/ui`).
-
-Ao terminar uma tarefa: registre no topo de `docs/HANDOFF.md`, commite (trailer `Agente: vscode`
-ou `Agente: cowork`) e faça push (o Cowork não faz push — deixa anotado no HANDOFF).
+Ao terminar: `pnpm verify` na raiz, entrada no topo de [docs/HANDOFF.md](../../docs/HANDOFF.md), commit e push.

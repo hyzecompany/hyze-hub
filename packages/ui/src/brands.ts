@@ -1,6 +1,6 @@
 /**
- * Catálogo das empresas do grupo. Subempresa nova = adicionar/ativar um item aqui, publicar uma
- * nova versão do hyze-ui e criar o repositório hyze-<slug> (copiando o hyze-sites como modelo).
+ * Catálogo das empresas do grupo. Subempresa nova = adicionar/ativar um item aqui e
+ * criar apps/<slug> copiando apps/sites como modelo (veja o CLAUDE.md da raiz).
  */
 export type BrandStatus = "ativo" | "em-breve";
 

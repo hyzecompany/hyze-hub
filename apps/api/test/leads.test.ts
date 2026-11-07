@@ -90,12 +90,21 @@ describe("isAllowedOrigin", () => {
     ["https://hyzecompany.com.br.evil.com", false],
     ["https://evilhyzecompany.com.br", false],
     ["http://localhost:4321", false],
+    ["http://192.168.18.104:4321", false],
   ])("%s → %s", (origin, expected) => {
     expect(isAllowedOrigin(origin, "hyzecompany.com.br", false)).toBe(expected);
   });
 
   it("aceita localhost só quando habilitado", () => {
     expect(isAllowedOrigin("http://localhost:4321", "hyzecompany.com.br", true)).toBe(true);
+  });
+
+  it("aceita IP da rede local (celular) só quando habilitado", () => {
+    expect(isAllowedOrigin("http://192.168.18.104:4321", "hyzecompany.com.br", true)).toBe(true);
+    expect(isAllowedOrigin("http://10.0.0.5:4322", "hyzecompany.com.br", true)).toBe(true);
+    expect(isAllowedOrigin("http://172.20.1.1:4323", "hyzecompany.com.br", true)).toBe(true);
+    expect(isAllowedOrigin("http://8.8.8.8:4321", "hyzecompany.com.br", true)).toBe(false);
+    expect(isAllowedOrigin("http://172.32.0.1:4321", "hyzecompany.com.br", true)).toBe(false);
   });
 });
 

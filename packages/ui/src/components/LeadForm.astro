@@ -123,7 +123,13 @@ const field =
       status.textContent = "Enviando…";
 
       try {
-        const res = await fetch(form.dataset.endpoint!, {
+        // Em dev pelo celular (http://192.168.x.x:4321), "localhost" seria o próprio celular:
+        // troca pelo endereço do PC que serviu a página.
+        const endpoint = new URL(form.dataset.endpoint!);
+        if (endpoint.hostname === "localhost" && location.hostname !== "localhost") {
+          endpoint.hostname = location.hostname;
+        }
+        const res = await fetch(endpoint, {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({

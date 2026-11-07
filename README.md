@@ -5,7 +5,7 @@ Monorepo do grupo Hyze: sites (Astro), design system e API de leads (Cloudflare 
 ```bash
 corepack enable   # uma vez por máquina
 pnpm install
-pnpm dev          # hub :4321 · sites :4322 · consultoria :4323 · API :8787
+pnpm dev          # sobe tudo e mostra os links (PC e celular)
 pnpm verify       # formatação, lint, tipos, testes e build
 ```
 
@@ -15,6 +15,6 @@ pnpm verify       # formatação, lint, tipos, testes e build
 | `apps/sites`       | [sites.hyzecompany.com.br](https://sites.hyzecompany.com.br)             |
 | `apps/consultoria` | [consultoria.hyzecompany.com.br](https://consultoria.hyzecompany.com.br) |
 | `apps/api`         | API dos formulários (`api.hyzecompany.com.br`)                           |
-| `packages/ui`      | Design system `@hyze/ui` (catálogo: `pnpm dev:ui`)                       |
+| `packages/ui`      | Design system `@hyze/ui` (catálogo na porta 4320)                       |
 
 Guia completo (stack, identidade, deploy, trabalho em dupla): [CLAUDE.md](CLAUDE.md).

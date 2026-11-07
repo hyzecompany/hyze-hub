@@ -6,7 +6,7 @@ em dupla, stack, identidade visual, animações, como rodar e publicar).
 Criação de sites e landing pages. Conteúdo editável (planos, etapas, FAQ) em `src/content.ts`;
 página em `src/pages/index.astro`.
 
-- Rodar: `pnpm dev:sites` na raiz → http://localhost:4322 (sobe a API junto).
+- Porta 4322 (`pnpm dev` na raiz sobe tudo).
 - Este app é o modelo para novas empresas do grupo (veja "Nova empresa" no CLAUDE.md da raiz).
 
 Ao terminar: `pnpm verify` na raiz, entrada no topo de [docs/HANDOFF.md](../../docs/HANDOFF.md), commit e push.

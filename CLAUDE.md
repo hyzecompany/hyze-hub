@@ -24,19 +24,25 @@ Configuração compartilhada fica na raiz: `tsconfig.base.json`, `eslint.config.
 ```bash
 corepack enable   # uma vez por máquina (ativa o pnpm)
 pnpm install
-pnpm dev          # sobe tudo, com recarga ao salvar
+pnpm dev          # sobe TUDO e mostra os links para o PC e para o celular
 ```
 
-| Endereço                     | O quê                                     | Só ele (+ API)         |
-| ---------------------------- | ----------------------------------------- | ---------------------- |
-| http://localhost:4321        | hub (site do grupo)                       | `pnpm dev:hub`         |
-| http://localhost:4322        | Hyze Sites                                | `pnpm dev:sites`       |
-| http://localhost:4323        | Hyze Consultoria                          | `pnpm dev:consultoria` |
-| http://localhost:8787/health | API de leads (banco D1 local)             | —                      |
-| http://localhost:4320        | catálogo do design system (fora do `dev`) | `pnpm dev:ui`          |
+**Um comando só, de propósito** — o Gabriel não quer comandos separados por app. O `pnpm dev`
+(`scripts/dev.mjs`) sobe os 3 sites, a API e o catálogo do design system, já abertos na rede
+local, e imprime os links com o IP atual do PC (detectado a cada execução, funciona em qualquer
+Wi-Fi). Se sobrou um servidor antigo rodando, ele é substituído (`astro dev --force`).
 
-Em dev os formulários enviam para a API local (`apps/*/.env.development`); a API cria sozinha o
-`.dev.vars` com as chaves de teste do Turnstile e aplica as migrações locais.
+| Porta | O quê                         |
+| ----- | ----------------------------- |
+| 4321  | hub (site do grupo)           |
+| 4322  | Hyze Sites                    |
+| 4323  | Hyze Consultoria              |
+| 4320  | catálogo do design system     |
+| 8787  | API de leads (banco D1 local) |
+
+Em dev os formulários enviam para a API local na porta 8787 do mesmo endereço da página (no
+celular, o IP do PC). A API cria sozinha o `.dev.vars` com as chaves de teste do Turnstile,
+aplica as migrações locais e, com `ALLOW_LOCALHOST=true`, aceita `localhost` e IPs de rede local.
 
 Antes de commitar: **`pnpm verify`** (formatação, lint, tipos, testes e build de tudo).
 
@@ -73,7 +79,7 @@ Dois agentes editam este repositório: **Claude no VS Code** (local) e **Claude 
    `brandLabel` e o conteúdo em `src/content.ts`.
 3. Use `<LeadForm brand="<slug>" … />` — os leads caem na mesma API.
 4. Adicione o app ao matrix de deploy em `.github/workflows/ci.yml`, a `scripts/colocar-no-ar.ps1`
-   e um script `dev:<slug>` no `package.json` da raiz.
+   e a porta nova em `scripts/dev.mjs`.
 
 ## 6. Stack e decisões (não trocar sem conversar)
 

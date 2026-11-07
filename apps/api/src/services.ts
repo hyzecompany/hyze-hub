@@ -32,7 +32,15 @@ export async function notifyTelegram(
   });
 }
 
-/** Aceita o domínio raiz, qualquer subdomínio dele e (opcionalmente) localhost. */
+/** IP de rede local (10.x, 172.16–31.x, 192.168.x): o PC de desenvolvimento visto pelo celular. */
+function isPrivateIp(hostname: string): boolean {
+  const m = /^(\d+)\.(\d+)\.\d+\.\d+$/.exec(hostname);
+  if (!m) return false;
+  const [a, b] = [Number(m[1]), Number(m[2])];
+  return a === 10 || (a === 192 && b === 168) || (a === 172 && b >= 16 && b <= 31);
+}
+
+/** Aceita o domínio raiz, qualquer subdomínio dele e, em dev, localhost e IPs da rede local. */
 export function isAllowedOrigin(
   origin: string,
   rootDomain: string,
@@ -44,7 +52,13 @@ export function isAllowedOrigin(
   } catch {
     return false;
   }
-  if (allowLocalhost && url.protocol === "http:" && url.hostname === "localhost") return true;
+  if (
+    allowLocalhost &&
+    url.protocol === "http:" &&
+    (url.hostname === "localhost" || isPrivateIp(url.hostname))
+  ) {
+    return true;
+  }
   if (url.protocol !== "https:") return false;
   return url.hostname === rootDomain || url.hostname.endsWith(`.${rootDomain}`);
 }

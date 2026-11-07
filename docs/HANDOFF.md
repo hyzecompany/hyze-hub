@@ -11,6 +11,15 @@ Entradas novas no topo. Modelo:
 
 ---
 
+## 2026-11-07 — vscode (dev em um comando + celular)
+
+- Feito: `pnpm dev` (`scripts/dev.mjs`) é o **único** comando de desenvolvimento — sobe os 3
+  sites, a API e o catálogo, abertos na rede local, e imprime os links do PC e do celular com o
+  IP detectado na hora. Removidos `dev:hub`, `dev:sites` etc. (pedido do Gabriel: nada separado).
+- Feito: `astro dev --force` substitui servidores antigos esquecidos; API com porta fixa 8787 e
+  `ip 0.0.0.0` no `wrangler.jsonc`; o `LeadForm` troca `localhost` pelo IP da página; a API
+  (só com `ALLOW_LOCALHOST=true`) aceita origens de IP de rede local. 2 testes novos.
+
 ## 2026-11-07 — vscode
 
 - Feito: os 5 repositórios voltaram a ser **um monorepo** (pnpm workspace), com o histórico de

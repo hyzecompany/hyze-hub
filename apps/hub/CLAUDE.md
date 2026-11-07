@@ -6,7 +6,7 @@ em dupla, stack, identidade visual, animações, como rodar e publicar).
 Página inicial do grupo (empresas, contato) e a política de privacidade
 (`src/pages/privacidade.astro`) usada por todos os sites.
 
-- Rodar: `pnpm dev:hub` na raiz → http://localhost:4321 (sobe a API junto).
+- Porta 4321 (`pnpm dev` na raiz sobe tudo).
 - A lista de empresas vem de `@hyze/ui/brands` → altere em `packages/ui/src/brands.ts`.
 
 Ao terminar: `pnpm verify` na raiz, entrada no topo de [docs/HANDOFF.md](../../docs/HANDOFF.md), commit e push.

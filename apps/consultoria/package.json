@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Hyze Consultoria — consultoria em TI (consultoria.hyzecompany.com.br)",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro dev --host --force",
     "build": "astro build",
     "preview": "wrangler dev",
     "check": "astro check",

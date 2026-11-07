@@ -16,14 +16,6 @@
       "presentation": { "panel": "dedicated" }
     },
     {
-      "label": "Hyze: catálogo do design system (4320)",
-      "type": "shell",
-      "command": "pnpm dev:ui",
-      "isBackground": true,
-      "problemMatcher": [],
-      "presentation": { "panel": "dedicated" }
-    },
-    {
       "label": "Hyze: verificar tudo",
       "type": "shell",
       "command": "pnpm verify",

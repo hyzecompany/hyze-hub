@@ -11,7 +11,7 @@
     "./layouts/*": "./src/layouts/*"
   },
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro dev --host --force",
     "build": "astro build",
     "check": "astro check"
   },

@@ -7,7 +7,7 @@ Tokens de cor e tipografia (`src/styles/global.css`), catálogo de marcas (`src/
 componentes Astro (`src/components`), layout base com header/footer/SEO
 (`src/layouts/BaseLayout.astro`) e motor de animação (`src/scripts/motion.ts`).
 
-- Catálogo visual: `pnpm dev:ui` na raiz → http://localhost:4320 (páginas em `demo/pages`).
+- Catálogo visual na porta 4320 (`pnpm dev` na raiz sobe tudo; páginas em `demo/pages`).
 - Os sites usam este pacote direto do workspace (`"@hyze/ui": "workspace:*"`): mudou aqui,
   os sites em `pnpm dev` recarregam na hora. Não há versão para publicar.
 - Toda mudança aqui afeta todos os sites — rode `pnpm verify` na raiz.

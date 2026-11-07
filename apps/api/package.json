@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "node scripts/dev-vars.mjs",
     "dev": "wrangler d1 migrations apply hyze-leads --local && wrangler dev",
     "check": "tsc",
     "test": "vitest run",
@@ -11,8 +12,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate:local": "wrangler d1 migrations apply hyze-leads --local",
     "db:migrate:remote": "wrangler d1 migrations apply hyze-leads --remote",
-    "deploy": "wrangler deploy",
-    "predev": "node scripts/dev-vars.mjs"
+    "deploy": "wrangler deploy"
   },
   "description": "API de leads dos sites Hyze (api.hyzecompany.com.br) — Hono + D1 + Turnstile",
   "dependencies": {

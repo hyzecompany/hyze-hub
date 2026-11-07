@@ -6,7 +6,7 @@ import BaseLayout from "@hyze/ui/layouts/BaseLayout.astro";
 import { FAQ, PLANS, STEPS } from "../content";
 
 const headline = "Sites que trabalham pelo seu negócio.".split(" ");
-const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "1x00000000000000000000AA";
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA";
 ---
 
 <BaseLayout

@@ -11,6 +11,16 @@ Entradas novas no topo. Modelo:
 
 ---
 
+## 2026-11-07 — vscode (revisão para o plano gratuito da Cloudflare)
+
+- Feito: conferido contra os limites do plano Free (Workers, static assets, D1). Tudo cabe com
+  folga: sites 100% estáticos (~26 arquivos/~580 KB cada; assets são grátis e ilimitados), API
+  com bundle de 129 KB gzip, ~2 subrequests e 1 escrita no D1 por lead.
+- Feito: `minify: true` na API; chave do Turnstile vazia não gera mais widget quebrado (`||`);
+  o deploy do CI para com mensagem clara se faltar segredo, variável ou `database_id`.
+- Pendente (Gabriel): domínio ativo na Cloudflare, widget Turnstile, `pnpm run deploy` uma vez
+  (preenche o `database_id`, faz commit — dar push depois) e segredos/variáveis no GitHub.
+
 ## 2026-11-07 — vscode (dev em um comando + celular)
 
 - Feito: `pnpm dev` (`scripts/dev.mjs`) é o **único** comando de desenvolvimento — sobe os 3

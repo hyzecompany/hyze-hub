@@ -4,6 +4,8 @@
   "main": "src/index.ts",
   "compatibility_date": "2026-08-15",
   "observability": { "enabled": true },
+  // Bundle menor = inicialização mais rápida (o plano gratuito tem 10 ms de CPU por requisição).
+  "minify": true,
   // Dev: porta fixa (os sites apontam para 8787) e aberta na rede local para testar no celular.
   "dev": { "port": 8787, "ip": "0.0.0.0" },
   "routes": [{ "pattern": "api.hyzecompany.com.br", "custom_domain": true }],

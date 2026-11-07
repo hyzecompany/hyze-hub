@@ -14,7 +14,7 @@ const icons = {
 } satisfies Record<IconName, unknown>;
 
 const headline = "Tecnologia que funciona, para você focar no seu negócio.".split(" ");
-const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "1x00000000000000000000AA";
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA";
 const leadServices = [...SERVICES.map((s) => s.title), ...PLANS.map((p) => `Plano ${p.name}`)];
 ---
 

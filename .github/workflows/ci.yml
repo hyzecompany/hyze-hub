@@ -45,6 +45,22 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: pnpm
+      - name: Conferir configuração de produção
+        working-directory: .
+        run: |
+          faltando=""
+          [ -n "$CLOUDFLARE_API_TOKEN" ] || faltando="$faltando segredo:CLOUDFLARE_API_TOKEN"
+          [ -n "$CLOUDFLARE_ACCOUNT_ID" ] || faltando="$faltando segredo:CLOUDFLARE_ACCOUNT_ID"
+          if [ "${{ matrix.app }}" != "api" ] && [ -z "$PUBLIC_TURNSTILE_SITE_KEY" ]; then
+            faltando="$faltando variável:PUBLIC_TURNSTILE_SITE_KEY"
+          fi
+          if [ "${{ matrix.app }}" = "api" ] && grep -q '"database_id": "00000000-' apps/api/wrangler.jsonc; then
+            faltando="$faltando database_id-do-D1(rode-pnpm-run-deploy-uma-vez)"
+          fi
+          if [ -n "$faltando" ]; then
+            echo "::error::Configuração faltando no GitHub:$faltando"
+            exit 1
+          fi
       - run: pnpm install --frozen-lockfile
       - name: Migrações D1
         if: matrix.app == 'api'

@@ -6,7 +6,7 @@ import LeadForm from "@hyze/ui/components/LeadForm.astro";
 import Logo from "@hyze/ui/components/Logo.astro";
 import BaseLayout from "@hyze/ui/layouts/BaseLayout.astro";
 
-const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "1x00000000000000000000AA";
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA";
 ---
 
 <BaseLayout

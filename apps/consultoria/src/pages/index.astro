@@ -1,0 +1,192 @@
+---
+import Button from "@hyze/ui/components/Button.astro";
+import Highlight from "@hyze/ui/components/Highlight.astro";
+import LeadForm from "@hyze/ui/components/LeadForm.astro";
+import BaseLayout from "@hyze/ui/layouts/BaseLayout.astro";
+import { CloudCog, Headset, MapPin, MonitorSmartphone, Server, Workflow } from "@lucide/astro";
+import { FAQ, PLANS, REGION, SERVICES, STEPS, type IconName } from "../content";
+
+const icons = {
+  server: Server,
+  headset: Headset,
+  cloud: CloudCog,
+  workflow: Workflow,
+} satisfies Record<IconName, unknown>;
+
+const headline = "Tecnologia que funciona, para você focar no seu negócio.".split(" ");
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "1x00000000000000000000AA";
+const leadServices = [...SERVICES.map((s) => s.title), ...PLANS.map((p) => `Plano ${p.name}`)];
+---
+
+<BaseLayout
+  title="Consultoria e suporte em TI"
+  description="Infraestrutura e redes, suporte técnico, nuvem (Microsoft 365 e Google Workspace) e automação para pequenas e médias empresas. Atendimento presencial e remoto."
+  brandLabel="consultoria"
+  nav={[
+    { href: "#servicos", label: "Serviços" },
+    { href: "#planos", label: "Planos" },
+    { href: "#como-funciona", label: "Como funciona" },
+    { href: "#orcamento", label: "Diagnóstico" },
+  ]}
+  analyticsToken={import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN}
+>
+  <section class="mx-auto grid max-w-6xl gap-10 px-4 py-24 md:px-6 md:py-32">
+    <h1
+      class="max-w-4xl text-4xl font-semibold tracking-tight md:text-6xl"
+      aria-label={headline.join(" ")}
+    >
+      {headline.map((word) => (
+        <>
+          <span data-hero aria-hidden="true" class="inline-block">
+            {word}
+          </span>{" "}
+        </>
+      ))}
+    </h1>
+    <Highlight data-hero class="max-w-2xl">
+      Infraestrutura, suporte, nuvem e automação para pequenas e médias empresas — presencial na
+      região e remoto em todo o Brasil.
+    </Highlight>
+    <div data-hero class="flex flex-wrap gap-3">
+      <Button href="#orcamento">Agendar diagnóstico gratuito</Button>
+      <Button href="#servicos" variant="ghost">
+        Ver serviços
+      </Button>
+    </div>
+  </section>
+
+  <section id="servicos" class="bg-platinum text-navy-950">
+    <div class="mx-auto max-w-6xl px-4 py-20 md:px-6">
+      <h2 data-reveal class="mb-3 text-3xl font-semibold md:text-4xl">
+        O que fazemos
+      </h2>
+      <p data-reveal class="mb-10 max-w-2xl font-extralight">
+        Da tomada ao e-mail: cuidamos da tecnologia para ela simplesmente funcionar.
+      </p>
+      <ul data-stagger class="grid gap-6 md:grid-cols-2">
+        {SERVICES.map((s) => {
+          const Icon = icons[s.icon];
+          return (
+            <li class="card-hover group flex flex-col gap-4 rounded-2xl border border-navy-400 bg-platinum-50 p-8 hover:border-navy-950">
+              <span class="grid size-12 place-items-center rounded-xl bg-navy-950 text-platinum transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-rotate-6 group-hover:scale-110">
+                <Icon size={24} stroke-width={1.5} aria-hidden="true" />
+              </span>
+              <h3 class="text-xl font-semibold">{s.title}</h3>
+              <p class="text-sm font-extralight">{s.description}</p>
+              <ul class="space-y-2 text-sm font-extralight">
+                {s.items.map((i) => (
+                  <li>— {i}</li>
+                ))}
+              </ul>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-20 md:px-6">
+    <h2 data-reveal class="mb-10 text-3xl font-semibold md:text-4xl">
+      Onde atendemos
+    </h2>
+    <ul data-stagger class="grid gap-6 md:grid-cols-2">
+      <li class="card-hover flex gap-5 rounded-2xl border border-navy-900 p-8 hover:border-navy-700">
+        <MapPin size={28} stroke-width={1.5} class="shrink-0 text-navy-400" aria-hidden="true" />
+        <div>
+          <h3 class="font-semibold">Presencial</h3>
+          <p class="mt-2 text-sm font-extralight">
+            Visitas técnicas, montagem de rede e manutenção em {REGION}.
+          </p>
+        </div>
+      </li>
+      <li class="card-hover flex gap-5 rounded-2xl border border-navy-900 p-8 hover:border-navy-700">
+        <MonitorSmartphone
+          size={28}
+          stroke-width={1.5}
+          class="shrink-0 text-navy-400"
+          aria-hidden="true"
+        />
+        <div>
+          <h3 class="font-semibold">Remoto</h3>
+          <p class="mt-2 text-sm font-extralight">
+            Suporte, nuvem e automação para empresas de todo o Brasil, com acesso seguro.
+          </p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="planos" class="bg-platinum text-navy-950">
+    <div class="mx-auto max-w-6xl px-4 py-20 md:px-6">
+      <h2 data-reveal class="mb-10 text-3xl font-semibold md:text-4xl">
+        Planos
+      </h2>
+      <ul data-stagger class="grid gap-6 md:grid-cols-3">
+        {PLANS.map((p) => (
+          <li
+            class:list={[
+              "card-hover flex flex-col gap-4 rounded-2xl p-8",
+              p.featured
+                ? "border border-navy-950 bg-navy-950 text-platinum"
+                : "border border-navy-400 bg-platinum-50 hover:border-navy-950",
+            ]}
+          >
+            <h3 class="text-xl font-semibold">{p.name}</h3>
+            <p class="text-sm font-extralight">{p.description}</p>
+            <p class="text-2xl font-semibold">{p.price}</p>
+            <ul class="flex-1 space-y-2 text-sm font-extralight">
+              {p.features.map((f) => (
+                <li>— {f}</li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="como-funciona" class="mx-auto max-w-6xl px-4 py-20 md:px-6">
+    <h2 data-reveal class="mb-10 text-3xl font-semibold md:text-4xl">
+      Como funciona
+    </h2>
+    <ol data-stagger class="grid gap-6 md:grid-cols-4">
+      {STEPS.map((s, i) => (
+        <li class="card-hover rounded-2xl border border-navy-900 p-6 hover:border-navy-700">
+          <span class="text-sm font-extralight text-navy-400">0{i + 1}</span>
+          <h3 class="mt-2 font-semibold">{s.title}</h3>
+          <p class="mt-2 text-sm font-extralight">{s.text}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section data-reveal class="mx-auto max-w-3xl px-4 pb-20 md:px-6">
+    <h2 class="mb-6 text-3xl font-semibold">Perguntas frequentes</h2>
+    <div class="divide-y divide-navy-900">
+      {FAQ.map((f) => (
+        <details class="faq group py-4">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold transition-colors hover:text-navy-400 [&::-webkit-details-marker]:hidden">
+            {f.q}
+            <span
+              aria-hidden="true"
+              class="text-xl font-extralight transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-open:rotate-45"
+            >
+              +
+            </span>
+          </summary>
+          <p class="pt-2 font-extralight text-navy-400">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section id="orcamento" class="bg-navy-900">
+    <div data-reveal class="mx-auto max-w-3xl px-4 py-20 md:px-6">
+      <h2 class="mb-2 text-3xl font-semibold">Agende um diagnóstico gratuito</h2>
+      <p class="mb-8 font-extralight text-navy-400">
+        Conte como está a TI da sua empresa. Respondemos em até 1 dia útil.
+      </p>
+      <LeadForm brand="consultoria" turnstileSiteKey={turnstileSiteKey} services={leadServices} />
+    </div>
+  </section>
+</BaseLayout>

@@ -15,6 +15,6 @@ pnpm verify       # formatação, lint, tipos, testes e build
 | `apps/sites`       | [sites.hyzecompany.com.br](https://sites.hyzecompany.com.br)             |
 | `apps/consultoria` | [consultoria.hyzecompany.com.br](https://consultoria.hyzecompany.com.br) |
 | `apps/api`         | API dos formulários (`api.hyzecompany.com.br`)                           |
-| `packages/ui`      | Design system `@hyze/ui` (catálogo na porta 4320)                       |
+| `packages/ui`      | Design system `@hyze/ui` (catálogo na porta 4320)                        |
 
 Guia completo (stack, identidade, deploy, trabalho em dupla): [CLAUDE.md](CLAUDE.md).

@@ -1,0 +1,24 @@
+---
+/** Bloco de texto com a barra vertical de destaque do anúncio do Figma ("Detalhe"). */
+interface Props {
+  tone?: "light" | "dark";
+  class?: string;
+  [attr: `data-${string}`]: unknown;
+}
+const { tone = "light", class: className, ...attrs } = Astro.props;
+---
+
+<div class:list={["flex gap-5", className]} {...attrs}>
+  <span
+    aria-hidden="true"
+    class:list={["w-1 shrink-0 rounded-pill", tone === "light" ? "bg-platinum" : "bg-navy-950"]}
+  ></span>
+  <div
+    class:list={[
+      "text-lg font-extralight md:text-2xl",
+      tone === "light" ? "text-platinum" : "text-navy-950",
+    ]}
+  >
+    <slot />
+  </div>
+</div>

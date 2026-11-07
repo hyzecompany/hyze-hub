@@ -1,0 +1,54 @@
+---
+import { BRANDS } from "../../src/brands";
+import Button from "../../src/components/Button.astro";
+import Highlight from "../../src/components/Highlight.astro";
+import LeadForm from "../../src/components/LeadForm.astro";
+import Logo from "../../src/components/Logo.astro";
+import BaseLayout from "../../src/layouts/BaseLayout.astro";
+
+// bg-navy-950 bg-navy-900 bg-navy-700 bg-navy-400 bg-platinum bg-platinum-50
+const tokens = ["navy-950", "navy-900", "navy-700", "navy-400", "platinum", "platinum-50"];
+---
+
+<BaseLayout
+  title="Design system"
+  description="Catálogo dos componentes Hyze."
+  brandLabel="ui"
+  nav={[{ href: "#componentes", label: "Componentes" }]}
+>
+  <section class="mx-auto grid max-w-6xl gap-10 px-4 py-20 md:px-6">
+    <div data-hero>
+      <Logo size="lg" animated />
+    </div>
+    <Highlight data-hero>Catálogo vivo do design system da Hyze.</Highlight>
+  </section>
+
+  <section id="componentes" class="mx-auto grid max-w-6xl gap-12 px-4 pb-24 md:px-6">
+    <div data-reveal>
+      <h2 class="mb-4 text-2xl font-semibold">Cores</h2>
+      <ul data-stagger class="grid grid-cols-2 gap-4 md:grid-cols-6">
+        {tokens.map((t) => (
+          <li class="overflow-hidden rounded-xl border border-navy-900">
+            <div class={`h-20 bg-${t}`} />
+            <p class="p-3 text-xs">{t}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div data-reveal>
+      <h2 class="mb-4 text-2xl font-semibold">Logos</h2>
+      <div class="flex flex-wrap gap-8">
+        {BRANDS.map((b) => (
+          <Logo label={b.label} />
+        ))}
+      </div>
+    </div>
+    <div data-reveal class="flex flex-wrap gap-3">
+      <Button>Primário</Button>
+      <Button variant="ghost">Secundário</Button>
+    </div>
+    <div data-reveal class="max-w-2xl">
+      <LeadForm brand="ui" turnstileSiteKey="1x00000000000000000000AA" services={["Teste"]} />
+    </div>
+  </section>
+</BaseLayout>

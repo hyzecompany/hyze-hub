@@ -1,0 +1,154 @@
+---
+/**
+ * Formulário de orçamento compartilhado por todas as subempresas.
+ * Envia para a API de leads (workers/leads-api) com proteção Turnstile e consentimento LGPD.
+ */
+import { GROUP, whatsappLink } from "../brands";
+import Button from "./Button.astro";
+
+interface Props {
+  /** Slug da subempresa que originou o lead (ex.: "sites"). */
+  brand: string;
+  /** Site key pública do Turnstile. Em dev, use a chave de teste 1x00000000000000000000AA. */
+  turnstileSiteKey: string;
+  apiUrl?: string;
+  services?: string[];
+}
+
+// Em desenvolvimento, PUBLIC_API_URL=http://localhost:8787 aponta o formulário para a API local.
+const envApiUrl = import.meta.env.PUBLIC_API_URL as string | undefined;
+const { brand, turnstileSiteKey, apiUrl = envApiUrl || GROUP.apiUrl, services = [] } = Astro.props;
+const wa = whatsappLink(`Olá! Vim pelo site da Hyze ${brand} e gostaria de um orçamento.`);
+const field =
+  "w-full rounded-lg border border-navy-700 bg-navy-900 px-4 py-3 font-extralight text-platinum placeholder:text-navy-400 focus:border-platinum focus:outline-none";
+---
+
+<form
+  class="lead-form grid gap-4"
+  data-endpoint={`${apiUrl}/v1/leads`}
+  data-brand={brand}
+  novalidate
+>
+  <div class="grid gap-4 md:grid-cols-2">
+    <label class="grid gap-1 text-sm">
+      Nome
+      <input class={field} name="name" autocomplete="name" required minlength="2" maxlength="120" />
+    </label>
+    <label class="grid gap-1 text-sm">
+      WhatsApp
+      <input
+        class={field}
+        name="phone"
+        type="tel"
+        autocomplete="tel"
+        inputmode="tel"
+        required
+        minlength="8"
+        maxlength="20"
+        placeholder="(66) 99999-9999"
+      />
+    </label>
+  </div>
+  <label class="grid gap-1 text-sm">
+    <span>
+      E-mail <span class="font-extralight text-navy-400">(opcional)</span>
+    </span>
+    <input class={field} name="email" type="email" autocomplete="email" maxlength="160" />
+  </label>
+  {services.length > 0 && (
+    <label class="grid gap-1 text-sm">
+      O que você precisa?
+      <select class={field} name="service">
+        {services.map((s) => (
+          <option value={s}>{s}</option>
+        ))}
+      </select>
+    </label>
+  )}
+  <label class="grid gap-1 text-sm">
+    Conte um pouco sobre o projeto
+    <textarea class={field} name="message" rows="4" maxlength="2000"></textarea>
+  </label>
+  <label class="flex items-start gap-3 text-sm font-extralight">
+    <input type="checkbox" name="consent" required class="mt-1 accent-platinum" />
+    <span>
+      Concordo com o uso dos meus dados para receber o contato da Hyze, conforme a{" "}
+      <a class="underline" href={`${GROUP.url}/privacidade`}>
+        política de privacidade
+      </a>
+      {"."}
+    </span>
+  </label>
+
+  <div
+    class="cf-turnstile"
+    data-sitekey={turnstileSiteKey}
+    data-theme="dark"
+    data-language="pt-br"
+  ></div>
+
+  <div class="flex flex-wrap items-center gap-3">
+    <Button type="submit">Pedir orçamento</Button>
+    <Button href={wa} variant="ghost" external>
+      Falar no WhatsApp
+    </Button>
+  </div>
+  <p class="form-status text-sm font-extralight" role="status" aria-live="polite"></p>
+</form>
+
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<script>
+  for (const form of document.querySelectorAll<HTMLFormElement>("form.lead-form")) {
+    const status = form.querySelector<HTMLParagraphElement>(".form-status");
+    const submit = form.querySelector<HTMLButtonElement>("button[type=submit]");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!status || !submit) return;
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const data = new FormData(form);
+      const token = data.get("cf-turnstile-response");
+      if (!token) {
+        status.textContent = "Confirme a verificação anti-spam antes de enviar.";
+        return;
+      }
+
+      submit.disabled = true;
+      status.textContent = "Enviando…";
+
+      try {
+        const res = await fetch(form.dataset.endpoint!, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            brand: form.dataset.brand,
+            name: data.get("name"),
+            phone: data.get("phone"),
+            email: data.get("email") || undefined,
+            service: data.get("service") || undefined,
+            message: data.get("message") || undefined,
+            consent: data.get("consent") === "on",
+            turnstileToken: token,
+            page: location.href,
+          }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        status.textContent = "Recebemos seu pedido! Vamos falar com você em breve.";
+      } catch {
+        status.textContent =
+          "Não foi possível enviar agora. Tente de novo ou fale com a gente pelo WhatsApp.";
+      } finally {
+        submit.disabled = false;
+        // @ts-expect-error turnstile é global injetado pelo script da Cloudflare
+        window.turnstile?.reset();
+      }
+    });
+  }
+</script>

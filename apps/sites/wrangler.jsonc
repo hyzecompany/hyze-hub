@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hyze-sites",
+  "compatibility_date": "2026-08-15",
+  // Só assets estáticos: sem código de Worker = sem consumo da cota de requisições.
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "drop-trailing-slash",
+  },
+  "routes": [{ "pattern": "sites.hyzecompany.com.br", "custom_domain": true }],
+}

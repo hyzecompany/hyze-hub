@@ -1,0 +1,122 @@
+---
+import Button from "@hyze/ui/components/Button.astro";
+import Highlight from "@hyze/ui/components/Highlight.astro";
+import LeadForm from "@hyze/ui/components/LeadForm.astro";
+import BaseLayout from "@hyze/ui/layouts/BaseLayout.astro";
+import { FAQ, PLANS, STEPS } from "../content";
+
+const headline = "Sites que trabalham pelo seu negócio.".split(" ");
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "1x00000000000000000000AA";
+---
+
+<BaseLayout
+  title="Criação de sites e landing pages"
+  description="Sites rápidos, bonitos e prontos para vender. Landing pages, sites institucionais e projetos sob medida."
+  brandLabel="sites"
+  nav={[
+    { href: "#planos", label: "Planos" },
+    { href: "#como-funciona", label: "Como funciona" },
+    { href: "#orcamento", label: "Orçamento" },
+  ]}
+  analyticsToken={import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN}
+>
+  <section class="mx-auto grid max-w-6xl gap-10 px-4 py-24 md:px-6 md:py-32">
+    <h1
+      class="max-w-4xl text-4xl font-semibold tracking-tight md:text-6xl"
+      aria-label={headline.join(" ")}
+    >
+      {headline.map((word) => (
+        <>
+          <span data-hero aria-hidden="true" class="inline-block">
+            {word}
+          </span>{" "}
+        </>
+      ))}
+    </h1>
+    <Highlight data-hero class="max-w-2xl">
+      Rápidos, bonitos, bem posicionados no Google e feitos para transformar visitas em clientes.
+    </Highlight>
+    <div data-hero class="flex flex-wrap gap-3">
+      <Button href="#orcamento">Pedir orçamento</Button>
+      <Button href="#planos" variant="ghost">
+        Ver planos
+      </Button>
+    </div>
+  </section>
+
+  <section id="planos" class="bg-platinum text-navy-950">
+    <div class="mx-auto max-w-6xl px-4 py-20 md:px-6">
+      <h2 data-reveal class="mb-10 text-3xl font-semibold md:text-4xl">
+        Planos
+      </h2>
+      <ul data-stagger class="grid gap-6 md:grid-cols-3">
+        {PLANS.map((p) => (
+          <li
+            class:list={[
+              "card-hover flex flex-col gap-4 rounded-2xl p-8",
+              p.featured
+                ? "border border-navy-950 bg-navy-950 text-platinum"
+                : "border border-navy-400 bg-platinum-50 hover:border-navy-950",
+            ]}
+          >
+            <h3 class="text-xl font-semibold">{p.name}</h3>
+            <p class="text-sm font-extralight">{p.description}</p>
+            <p class="text-2xl font-semibold">{p.price}</p>
+            <ul class="flex-1 space-y-2 text-sm font-extralight">
+              {p.features.map((f) => (
+                <li>— {f}</li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="como-funciona" class="mx-auto max-w-6xl px-4 py-20 md:px-6">
+    <h2 data-reveal class="mb-10 text-3xl font-semibold md:text-4xl">
+      Como funciona
+    </h2>
+    <ol data-stagger class="grid gap-6 md:grid-cols-4">
+      {STEPS.map((s, i) => (
+        <li class="card-hover rounded-2xl border border-navy-900 p-6 hover:border-navy-700">
+          <span class="text-sm font-extralight text-navy-400">0{i + 1}</span>
+          <h3 class="mt-2 font-semibold">{s.title}</h3>
+          <p class="mt-2 text-sm font-extralight">{s.text}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section data-reveal class="mx-auto max-w-3xl px-4 pb-20 md:px-6">
+    <h2 class="mb-6 text-3xl font-semibold">Perguntas frequentes</h2>
+    <div class="divide-y divide-navy-900">
+      {FAQ.map((f) => (
+        <details class="faq group py-4">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold transition-colors hover:text-navy-400 [&::-webkit-details-marker]:hidden">
+            {f.q}
+            <span
+              aria-hidden="true"
+              class="text-xl font-extralight transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-open:rotate-45"
+            >
+              +
+            </span>
+          </summary>
+          <p class="pt-2 font-extralight text-navy-400">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section id="orcamento" class="bg-navy-900">
+    <div data-reveal class="mx-auto max-w-3xl px-4 py-20 md:px-6">
+      <h2 class="mb-2 text-3xl font-semibold">Peça seu orçamento</h2>
+      <p class="mb-8 font-extralight text-navy-400">Resposta em até 1 dia útil.</p>
+      <LeadForm
+        brand="sites"
+        turnstileSiteKey={turnstileSiteKey}
+        services={PLANS.map((p) => p.name)}
+      />
+    </div>
+  </section>
+</BaseLayout>
